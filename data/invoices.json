@@ -1,0 +1,37 @@
+[
+  {
+    "id": "INV-2038",
+    "customer": "Harbor Coffee",
+    "dueDate": "2026-03-10",
+    "paidAt": "2026-03-04T11:05:00Z",
+    "taxPercent": 8,
+    "lines": [{ "description": "Website hosting (March)", "unitCents": 12000, "quantity": 1 }]
+  },
+  {
+    "id": "INV-2039",
+    "customer": "Kestrel Logistics",
+    "dueDate": "2026-03-12",
+    "paidAt": "2026-03-19T08:30:00Z",
+    "taxPercent": 8,
+    "lines": [{ "description": "Fleet tracking seats", "unitCents": 4500, "quantity": 20 }]
+  },
+  {
+    "id": "INV-2040",
+    "customer": "Northwind Traders",
+    "dueDate": "2026-03-14",
+    "paidAt": null,
+    "taxPercent": 0,
+    "lines": [{ "description": "Onboarding workshop", "unitCents": 90000, "quantity": 1 }]
+  },
+  {
+    "id": "INV-2041",
+    "customer": "Brightline Studio",
+    "dueDate": "2026-03-15",
+    "paidAt": "2026-03-15T16:42:00Z",
+    "taxPercent": 0,
+    "lines": [
+      { "description": "Design system audit", "unitCents": 32000, "quantity": 1 },
+      { "description": "Component library seats", "unitCents": 4000, "quantity": 4 }
+    ]
+  }
+]

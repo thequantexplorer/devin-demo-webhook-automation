@@ -1,0 +1,18 @@
+{
+  "ticket_id": "SUP-1042",
+  "source": "acme-helpdesk",
+  "type": "bug",
+  "priority": "high",
+  "created_at": "2026-03-16T09:12:00Z",
+  "customer": {
+    "name": "Priya Nair",
+    "company": "Brightline Studio",
+    "plan": "Team"
+  },
+  "subject": "Charged a late fee for paying on the due date",
+  "description": "Hi, invoice INV-2041 was due on March 15. I paid it on March 15 in the afternoon, but the bill shows a $25.00 late fee and a total of $505.00 instead of $480.00. Your terms say I can pay any time on the due date. Please remove the fee and fix this so it doesn't happen again.",
+  "invoice_id": "INV-2041",
+  "agent_notes": "Confirmed in the billing repo: `npm run invoice -- INV-2041` shows late fee $25.00. paidAt is 2026-03-15T16:42:00Z and dueDate is 2026-03-15. Rule 2 in docs/billing-rules.md says that payment is on time.",
+  "expected": "No late fee. Total $480.00.",
+  "actual": "Late fee $25.00. Total $505.00."
+}

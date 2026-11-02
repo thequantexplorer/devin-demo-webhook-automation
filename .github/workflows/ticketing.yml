@@ -1,0 +1,49 @@
+# Pretend help desk: sends a bug ticket to your Devin automation's webhook.
+# Needs two repository secrets: DEVIN_WEBHOOK_URL and DEVIN_WEBHOOK_SECRET.
+name: ticketing
+
+on:
+  workflow_dispatch:
+    inputs:
+      ticket:
+        description: Ticket to send
+        type: choice
+        options:
+          - SUP-1042
+        default: SUP-1042
+
+permissions:
+  contents: read
+
+jobs:
+  send-ticket:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Send the ticket to Devin
+        env:
+          DEVIN_WEBHOOK_URL: ${{ secrets.DEVIN_WEBHOOK_URL }}
+          DEVIN_WEBHOOK_SECRET: ${{ secrets.DEVIN_WEBHOOK_SECRET }}
+          TICKET: ${{ inputs.ticket }}
+          REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+        run: |
+          if [ -z "$DEVIN_WEBHOOK_URL" ] || [ -z "$DEVIN_WEBHOOK_SECRET" ]; then
+            echo "::error::Add the DEVIN_WEBHOOK_URL and DEVIN_WEBHOOK_SECRET repository secrets first (Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+          jq --arg repo "$REPO_URL" '. + {repository: $repo}' "tickets/$TICKET.json" > payload.json
+          echo "Sending this ticket:"
+          cat payload.json
+          status=$(curl -sS -o response.txt -w '%{http_code}' -X POST "$DEVIN_WEBHOOK_URL" \
+            -H 'Content-Type: application/json' \
+            -H "X-Webhook-Secret: $DEVIN_WEBHOOK_SECRET" \
+            --data @payload.json)
+          echo "Devin answered with HTTP $status"
+          cat response.txt; echo
+          if [ "$status" -lt 200 ] || [ "$status" -ge 300 ]; then
+            echo "::error::The webhook call failed (HTTP $status). Check that both secrets were copied from the same webhook trigger."
+            exit 1
+          fi
+          echo "### Sent $TICKET to Devin" >> "$GITHUB_STEP_SUMMARY"
+          echo "Open your automation in Devin. The ticket is under Events. Click View session to watch Devin work." >> "$GITHUB_STEP_SUMMARY"

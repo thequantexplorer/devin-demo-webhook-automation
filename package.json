@@ -1,0 +1,15 @@
+{
+  "name": "acme-billing",
+  "version": "1.4.0",
+  "private": true,
+  "description": "Acme invoicing: invoice totals, late fees and payment reminders.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "invoice": "node scripts/invoice.js",
+    "reminders": "node scripts/reminders.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
